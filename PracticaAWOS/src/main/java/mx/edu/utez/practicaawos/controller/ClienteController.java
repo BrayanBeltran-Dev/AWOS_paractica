@@ -57,4 +57,20 @@ public class ClienteController {
         }).toList();
         return ResponseEntity.ok(response);
     }
+
+    @PutMapping("/reservas/{reservaId}")
+    public ResponseEntity<Reserva> actualizarReserva(
+            @PathVariable Long reservaId,
+            @RequestBody ReservaDTO dto){
+
+        Reserva reservaActualizada = clienteService.actualizarReserva(reservaId, dto);
+        return ResponseEntity.ok(reservaActualizada);
+    }
+
+    @DeleteMapping("/reservas/{reservaId}")
+    public ResponseEntity<Void> eliminarReserva(@PathVariable Long reservaId){
+
+        clienteService.eliminarReserva(reservaId);
+        return ResponseEntity.noContent().build();
+    }
 }

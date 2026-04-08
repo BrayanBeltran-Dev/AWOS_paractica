@@ -52,4 +52,25 @@ public class ClienteService {
         return cliente.getReserva();
     }
 
+    @Transactional
+    public Reserva actualizarReserva(Long reservaId, ReservaDTO dto){
+        Reserva reserva = reservaRepository.findById(reservaId)
+                .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
+
+        reserva.setFecha(dto.getFecha());
+        reserva.setCantidadPersonas(dto.getCantidadPersonas());
+
+        return reservaRepository.save(reserva);
+    }
+
+    @Transactional
+    public void eliminarReserva(Long reservaId){
+        Reserva reserva = reservaRepository.findById(reservaId)
+                .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
+
+        Cliente cliente = reserva.getCliente();
+        cliente.getReserva().remove(reserva);
+
+        reservaRepository.delete(reserva);
+    }
 }
